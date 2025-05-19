@@ -1,199 +1,195 @@
-# Experiment 3: DML Commands
+# Experiment 4: Aggregate Functions, Group By and Having Clause
 
 ## AIM
-To study and implement DML (Data Manipulation Language) commands.
+To study and implement aggregate functions, GROUP BY, and HAVING clause with suitable examples.
 
 ## THEORY
 
-### 1. INSERT INTO
-Used to add records into a relation.
-These are three type of INSERT INTO queries which are as
-A)Inserting a single record
-**Syntax (Single Row):**
-```sql
-INSERT INTO table_name (field_1, field_2, ...) VALUES (value_1, value_2, ...);
-```
-**Syntax (Multiple Rows):**
-```sql
-INSERT INTO table_name (field_1, field_2, ...) VALUES
-(value_1, value_2, ...),
-(value_3, value_4, ...);
-```
-**Syntax (Insert from another table):**
-```sql
-INSERT INTO table_name SELECT * FROM other_table WHERE condition;
-```
-### 2. UPDATE
-Used to modify records in a relation.
-Syntax:
-```sql
-UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition;
-```
-### 3. DELETE
-Used to delete records from a relation.
-**Syntax (All rows):**
-```sql
-DELETE FROM table_name;
-```
-**Syntax (Specific condition):**
-```sql
-DELETE FROM table_name WHERE condition;
-```
-### 4. SELECT
-Used to retrieve records from a table.
+### Aggregate Functions
+These perform calculations on a set of values and return a single value.
+
+- **MIN()** – Smallest value  
+- **MAX()** – Largest value  
+- **COUNT()** – Number of rows  
+- **SUM()** – Total of values  
+- **AVG()** – Average of values
+
 **Syntax:**
 ```sql
-SELECT column1, column2 FROM table_name WHERE condition;
+SELECT AGG_FUNC(column_name) FROM table_name WHERE condition;
 ```
+### GROUP BY
+Groups records with the same values in specified columns.
+**Syntax:**
+```sql
+SELECT column_name, AGG_FUNC(column_name)
+FROM table_name
+GROUP BY column_name;
+```
+### HAVING
+Filters the grouped records based on aggregate conditions.
+**Syntax:**
+```sql
+SELECT column_name, AGG_FUNC(column_name)
+FROM table_name
+GROUP BY column_name
+HAVING condition;
+```
+
 **Question 1**
 --
-![image](https://github.com/user-attachments/assets/be4064fd-3acb-47da-a1ef-da682c5a86d6)
+![image](https://github.com/user-attachments/assets/d2d5144f-21cb-47f8-a790-865613b5d4d9)
 
 
 ```sql
-insert into Products (productid,name,category,price,stock)values(101,"Laptop","Electronics",1500,50);
+select doctorid,count(appointmentid) as TotalAppointments
+from Appointments 
+group by doctorid;
 ```
 
 **Output:**
-
-![image](https://github.com/user-attachments/assets/8fbe7186-ca0b-428b-b2d9-30ef6aeb983f)
+![image](https://github.com/user-attachments/assets/8da944cb-ca86-44d6-bd0c-7c065b3790be)
 
 
 **Question 2**
 ---
-![image](https://github.com/user-attachments/assets/8e092282-a3a9-4d44-8c4e-789f3937523a)
+![image](https://github.com/user-attachments/assets/d34d3d04-92cc-472f-a035-ef7860f3bfff)
+
 
 ```sql
-INSERT INTO Employee(EmployeeID,Name,Position,Department,Salary)
-values (5,'George Clark','Consultant',NULL,NULL);
-INSERT INTO Employee(EmployeeID,Name,Position,Department,Salary)
-values (7,'Noah Davis','Manager','HR',60000);
-INSERT INTO Employee(EmployeeID,Name,Position,Department,Salary)
-values (8,'Ava Miller','Consultant','IT',NULL);
-
+select doctorid,count(appointmentid) as TotalAppointments
+from Appointments 
+group by doctorid;
 ```
 
 **Output:**
 
-![image](https://github.com/user-attachments/assets/a4eb049d-2a52-405a-b008-86ca5440eecf)
+![image](https://github.com/user-attachments/assets/8f08a5c5-4dcd-4fe8-9087-3bcb4538ff63)
 
 
 **Question 3**
 ---
-![image](https://github.com/user-attachments/assets/d7960d63-28ca-4ca5-9c02-e121446a3ae4)
+![image](https://github.com/user-attachments/assets/d789e34a-7914-4d7c-84c3-b04ebc11a29a)
 
 
 ```sql
-UPDATE sales set sell_price=sell_price*1.05 where product_id = 15 and sale_date='2023-01-31';
+select doctorid,count(recordid) as TotalRecords
+from MedicalRecords 
+group by doctorid;
 ```
 
 **Output:**
 
-![image](https://github.com/user-attachments/assets/0d0f83b6-9900-4140-8aa6-9471ab275c2f)
+![image](https://github.com/user-attachments/assets/2c9b8104-e6eb-49f2-aea8-0a61c956d2e0)
 
 
 **Question 4**
 ---
-![image](https://github.com/user-attachments/assets/79eee033-2177-4f71-98dd-902f5fd18745)
+![image](https://github.com/user-attachments/assets/425ab76d-438c-4f46-8add-7fd360bf9643)
 
 
 ```sql
-update employees set salary=salary+500,email = "updated" 
-where job_id ="SA_REP" and commission_pct>0.15;
+select max(purch_amt)as MAXIMUM from orders;
 ```
 
 **Output:**
 
-![image](https://github.com/user-attachments/assets/73d0cc87-186d-459a-91bd-24f5a457a79a)
+![image](https://github.com/user-attachments/assets/27f3df83-d7ef-48c9-95a0-1d87c33f7caf)
 
 
 **Question 5**
 ---
-![image](https://github.com/user-attachments/assets/521229f6-dde8-4de7-993d-3eeac1318a7e)
+![image](https://github.com/user-attachments/assets/e3bcd3bc-46d7-409f-a884-bc783fc330bc)
 
 
 ```sql
-update purchases set per_unit_price =25,total_price=quantity*25 where
-purchase_date ="2022-08-15" and product_id=12;
+select count(DISTINCT salesman_id) as COUNT from orders;
 ```
 
 **Output:**
 
-![image](https://github.com/user-attachments/assets/09e93e55-f740-4be5-bc58-5c54d05c5b39)
+![image](https://github.com/user-attachments/assets/1438e0cb-c8b3-4476-b889-c99e1002d1c5)
 
 
 **Question 6**
 ---
-![image](https://github.com/user-attachments/assets/3d802701-9502-4d94-9eaf-8675a470613f)
+![image](https://github.com/user-attachments/assets/d30050ca-d8cd-439d-af4c-f6f25f9494dd)
 
 
 ```sql
-update suppliers set address ='58 Lakeview, Magnolia' where supplier_id =5;
+select name, length(name) as length from customer order by length(name) desc limit 1;
 ```
 
 **Output:**
 
-![image](https://github.com/user-attachments/assets/89c1a9b4-507b-4148-9c08-891960fb87f0)
+![image](https://github.com/user-attachments/assets/b4805d2d-3040-45e7-9116-a54d120d5763)
 
 
 **Question 7**
 ---
-![image](https://github.com/user-attachments/assets/7dd373ad-2a84-4de0-beb4-096648b7fd7d)
+![image](https://github.com/user-attachments/assets/d72669ca-f950-4244-af21-d4e14e39b39f)
 
 
 ```sql
-select patient_id,first_name,admission_date,discharge_date
-from patients where admission_date=discharge_date;
-
+select avg(income) as Average_Salary from employee;
 ```
 
 **Output:**
 
-![image](https://github.com/user-attachments/assets/a28d4732-a8de-4d8c-a84f-f773b5035a26)
+![image](https://github.com/user-attachments/assets/44de571e-76ae-46b0-8307-cf0f85872b44)
 
 
 **Question 8**
 ---
-![image](https://github.com/user-attachments/assets/4aab613a-c430-47ae-bde7-52f01a03657a)
+![image](https://github.com/user-attachments/assets/701bd100-3644-426f-b499-ac3841416cff)
 
 
 ```sql
-select categoryname, description from categories order by categoryname;
+select age,MIN(income) 
+from employee 
+group by age 
+having MIN(income)<400000;
 ```
 
 **Output:**
 
-![image](https://github.com/user-attachments/assets/38c06f10-0eed-43b6-ad70-b378dd25bcab)
+![image](https://github.com/user-attachments/assets/5a28825d-370a-49be-bdd2-06914497c6ac)
 
 
 **Question 9**
 ---
-![image](https://github.com/user-attachments/assets/2f4f5afa-92f4-4931-ab1b-ff0e63f1b4ac)
+![image](https://github.com/user-attachments/assets/a7d61588-54f8-4bef-9740-3e12dbdadf75)
 
 
 ```sql
-select customer_id, cust_name, city, grade,salesman_id
-from customer where city ='London' and grade >200;
+select address,SUM(salary)
+from customer1
+group by address 
+having SUM(salary)>2000;
 ```
 
 **Output:**
 
-![image](https://github.com/user-attachments/assets/5ffc4c29-7ee9-438f-b944-3489e6b468c2)
+![image](https://github.com/user-attachments/assets/aa47256b-4185-4918-a6a8-4c230fa72cf5)
 
 
 **Question 10**
 ---
-![image](https://github.com/user-attachments/assets/87cdf942-36ba-464a-b47a-241466850754)
+![image](https://github.com/user-attachments/assets/81a2398d-2be5-4d5e-854e-0f85ca7923c1)
 
 
 ```sql
-update products set sell_price =(1.15)*sell_price where quantity <50 and supplier_id=10;
+select jdate,MAX(workhour)
+from employee1
+group by jdate 
+having MAX(workhour)>12;
 ```
 
 **Output:**
 
-![image](https://github.com/user-attachments/assets/e60faea9-99f5-47c1-8010-2987b863160d)
+
+![image](https://github.com/user-attachments/assets/d83c5036-96c8-4732-9060-f53123160c2e)
 
 
 ## RESULT
-Thus, the SQL queries to implement DML commands have been executed successfully.
+Thus, the SQL queries to implement aggregate functions, GROUP BY, and HAVING clause have been executed successfully.
